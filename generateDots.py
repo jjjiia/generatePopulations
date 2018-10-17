@@ -216,8 +216,8 @@ def generatePopulation(fileName):
 		csvWriter.writerow(row)
 
 
-for k in range(5):
-	generatePopulation("pop_"+str(k)+".csv")
+for k in range(15):
+	generatePopulation("web/populations/pop_"+str(k)+".csv")
 
 
 
