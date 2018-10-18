@@ -2,7 +2,7 @@ import random
 import copy
 import csv
 
-totalPopulation = 500
+totalPopulation = 501
 
 bins1 = {"category":["education","occupation"],
 	"gradeSchoolOrLess":{"whiteColorSkilled":10,"semiSkilled":13,"unskilledDomesticPersonalService":77,"total":146},
@@ -206,19 +206,22 @@ def generatePopulation(fileName):
 		allDots = results["joined"]
 
 	csvWriter = csv.writer(open(fileName,"w"))
-	headers = allDots[0].keys()
+	headers = ["id"]+allDots[0].keys()
 	csvWriter.writerow(headers)
 	#print headers
+	pid = 0
+	print allDots
+	
 	for d in allDots:
-		row = []
+		pid+=1
+		row = [str(pid)]
 		for c in d:
 			row.append(d[c])
 		csvWriter.writerow(row)
 
-
 for k in range(15):
 	generatePopulation("web/populations/pop_"+str(k)+".csv")
-
+	break
 
 
 
