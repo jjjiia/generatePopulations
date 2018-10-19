@@ -38,7 +38,6 @@ function ready(error, data){
 			}
 	}
 		var dataById = ndx.dimension(function(d){return d["id"]}).top(Infinity)
-		console.log(dataById)
 		makeDots(dataById)
 	
 		dc.renderAll();
