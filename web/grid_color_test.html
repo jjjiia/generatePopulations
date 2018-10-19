@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	  <meta charset="UTF-8">
+    <title>budget</title>
+
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dc.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+</head>
+
+<body>
+
+<div id="container">
+
+</div>
+
+</div>
+
+<script type="text/javascript" src="js/d3.js"></script>
+<script type="text/javascript" src="js/crossfilter.js"></script>
+<script type="text/javascript" src="js/dc.js"></script>
+<script type="text/javascript" src="js/colorbrewer.js"></script>
+<script type="text/javascript" src="js/queue.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<script>
+	var gridSize = 20
+	var rows = 30
+	var arr = new Array(rows*rows);
+	
+var dotsColor = ["#d74c34"]
+//var dotsColor = ["#d68f3c"]
+var colors = ["#68b859","#34789a","#68b859","#34789a","#68b859","#34789a","#fff","#fff"]	
+//var colors = ["#68b859","#68b859","#68b859","#d74c34","#d74c34","#d74c34","#fff","#fff"]
+var svg = d3.select("#container").append("svg").attr("width",(rows+1)*gridSize).attr("height",(rows+1)*gridSize)
+svg.selectAll(".sq")
+	.data(arr)
+	.enter()
+	.append("rect")
+	.attr("x",function(d,i){
+		return i%rows*gridSize
+	})
+	.attr("y",function(d,i){
+		return Math.floor(i/rows)*gridSize
+	})
+	.attr("width",gridSize)
+	.attr("height",gridSize)
+	.attr("fill",function(){
+		return colors[parseInt(Math.random()*colors.length)]
+	})
+	
+svg.selectAll(".dots")
+	.data(arr)
+	.enter()
+	.append("circle")
+	.attr("cx",function(d,i){
+		return i%rows*gridSize+gridSize/2
+	})
+	.attr("cy",function(d,i){
+		return Math.floor(i/rows)*gridSize+gridSize/2
+	})
+	.attr("r",gridSize/2-2)
+	
+	.attr("fill",function(){
+		return dotsColor[0]
+	})
+	.attr("opacity",function(){
+		var rand = Math.random()
+		if(rand>.8){
+			return 1
+		}else{
+			return 0
+		}
+	})
+	
+</script>
+
+
+</body>
+</html>

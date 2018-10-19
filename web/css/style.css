@@ -1,0 +1,63 @@
+body{
+	font-family:"helvetica";
+	color:#000;
+}
+a{
+	color:#000;
+}
+
+/* for header and text */
+ 
+/* for charts and maps */
+ #container{
+	 padding:40px;
+	 width:50%;
+	 color:#000000;
+ }
+ #dotsContainer{
+	 margin-left:50%;
+	 width:50%;
+	 height:100%;
+	 color:#000000;
+	 border:1px solid black;
+ }
+ #title{
+	 font-size:30px;
+	 font-weight:bold;
+	 padding:20px;
+ }
+ #subtitle{
+	 font-size:16px;
+	 padding:20px;
+ }
+ .dc-chart{
+	 color:#000000;
+ }
+ .chartDiv{
+	 display:inline-block;
+	 margin-bottom:10px;
+	 padding:10px;
+ }
+ .chartName{
+	 font-weight:bold;
+ }
+ .dc-chart g.row text {
+	 fill: black;
+	 font-size:10px;
+	 font-weight:bold;
+ }
+ .dc-data-count{
+	 width:400px;
+ }
+ .d3-tip {
+   padding: 5px;
+   background: rgba(255,255,255, 0.8);
+   color: #000;
+   border-radius: 2px;
+   border:1px solid black;
+ }
+ 
+ #microdata{
+	 font-size:10px;
+	 font-weight:light;
+ }
