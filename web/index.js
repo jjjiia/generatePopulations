@@ -11,7 +11,7 @@ function toTitleCase(str)
 var colors = ["#a0e431","#c1d199","#5fe648","#a0a58c","#d7e747","#457138","#e4cd3c","#66e17a","#727522",
 "#96e160","#dae6ba","#54b12f","#b3b985","#4a8a2a","#d5e685","#5baf5b","#b9ad58","#a1df93","#9db036","#75a067"]
 queue()
-	.defer(d3.csv, "populations/pop_4.csv")
+	.defer(d3.csv, "populations/pop_all_0.csv")
 	.await(ready);
 
 function ready(error, data){
@@ -48,8 +48,8 @@ function makeDots(dataById){
     .attr('class', 'd3-tip')
     .offset([0, 0])
 
-	var columns = 25
-	var gridSize = 24
+	var columns = 40
+	var gridSize = 16
 	var svg = d3.select("#dotsContainer").append("svg").attr("width",700).attr("height",600)
 	svg.call(tip);
 	svg.selectAll(".dots")
@@ -67,7 +67,7 @@ function makeDots(dataById){
 			}
 			return classString
 		})
-		.attr("r",8)
+		.attr("r",7)
 		.attr("cx",function(d,i){
 			return i%columns*gridSize+gridSize
 		})
@@ -123,7 +123,7 @@ function makeRowChart(ndx,column,color){
 	    .margins({top: 10, left: 0, right: 10, bottom: 20})
 		.group(thisGroup)
 		.dimension(thisDimension)
-		.data(function(zipcodeGroup){return thisGroup.top(10)})
+		.data(function(d){return thisGroup.top(Infinity)})
 		// assign colors to each value in the x scale domain
 		.ordinalColors(color)
 		.label(function (d) {

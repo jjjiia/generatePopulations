@@ -2,82 +2,156 @@ import random
 import copy
 import csv
 
-totalPopulation = 501
-
-bins1 = {"category":["education","occupation"],
-	"gradeSchoolOrLess":{"whiteColorSkilled":10,"semiSkilled":13,"unskilledDomesticPersonalService":77,"total":146},
-	"someHighSchool":{"whiteColorSkilled":16,"semiSkilled":21,"unskilledDomesticPersonalService":63,"total":113},
-	"highSchoolGraduate":{"whiteColorSkilled":27,"semiSkilled":24,"unskilledDomesticPersonalService":50,"total":59},
-}
-
-bins2 = {
+totalPopulation = 500
+blackBins = {
+"educationOccupationB":{"category":["education","occupation"],
+	"grade_school_or_less":{"white_collar_or_skilled":10,"semiskilled":13,"unskilled_domestic_and_personal_service":77,"total":146},
+	"some_high_school":{"white_collar_or_skilled":16,"semiskilled":21,"unskilled_domestic_and_personal_service":63,"total":113},
+	"high_school_graduate":{"white_collar_or_skilled":27,"semiskilled":24,"unskilled_domestic_and_personal_service":50,"total":59}
+	},
+"occupationSatisfactionInFieldB":{
 	"category":["occupation","satisfactionInField"],
-	"whiteColorSkilled":{"poor":25,"hardToSay":12,"fair":18,"good":45,"total":40},
-	"semiSkilled":{"poor":40,"hardToSay":16,"fair":15,"good":29,"total":55},
-	"unskilledDomesticPersonalService":{"poor":52,"hardToSay":17,"fair":10,"good":21,"total":181}
-}
-
-bins3 = {
+	"white_collar_or_skilled":{"poor":25,"hard_to_say":12,"fair":18,"good":45,"total":40},
+	"semiskilled":{"poor":40,"hard_to_say":16,"fair":15,"good":29,"total":55},
+	"unskilled_domestic_and_personal_service":{"poor":52,"hard_to_say":17,"fair":10,"good":21,"total":181}
+	},
+"occupationsatirsfactionInWorkplaceB":{
 	"category":["occupation","satisfactionInWorkplace"],
-	"whiteColorSkilled":{"poor":37,"hardToSay":21,"fair":11,"good":32,"total":40},
-	"semiSkilled":{"poor":53,"hardToSay":15,"fair":17,"good":15,"total":55},
-	"unskilledDomesticPersonalService":{"poor":57,"hardToSay":16,"fair":11,"good":16,"total":181}
-}
-bins4 = {
-	"category":["transiency"],
-	"permanent":17,
-	"asLongAsEligible":42,
-	"neverThoughtAboutIt":17,
-	"untilOwnHome":8,
-	"untilBetterPlace":16,
-	"total":356
-}
-
-bins5 = {
+	"white_collar_or_skilled":{"poor":37,"hard_to_say":21,"fair":11,"good":32,"total":40},
+	"semiskilled":{"poor":53,"hard_to_say":15,"fair":17,"good":15,"total":55},
+	"unskilled_domestic_and_personal_service":{"poor":57,"hard_to_say":16,"fair":11,"good":16,"total":181}
+	},
+"experienceExpectationsB":{
+		"category":["pastExperience","expectations"],
+		"biracial_living_experience":{"integration":11,"mutual_acomodation":69,"conflict":20,"total":193},
+		"no_biracial_living_experience":{"integration":5,"mutual_acomodation":50,"conflict":45,"total":18}
+		},
+"evaluationOfHilltownB":{
 	"category":["evaluationOfHilltown"],
 	"favorable":93,
 	"unfavorable":7,
 	"total":432
+	},
+"evaluationOfPhysicalAmenitiesB":{
+		"category":["evaluationOfPhysicalAmenities"],
+		"favorable":97,
+		"unfavorable":3,
+		"total":314
+	},
+"evaluationOfCoResidentsB":{
+		"category":["evaluationOfCoResidents"],
+		"favorable":85,
+		"unfavorable":15,
+		"total":75
+	},
+"evaluationOfManagementB":{
+		"category":["evaluationOfManagement"],
+		"favorable":79,
+		"unfavorable":21,
+		"total":43
+	},
+"impressionOfFriendsB":{
+		"category":["impressionOfFriends"],
+		"favorable":60,
+		"favorableAndUnfavorable":22,
+		"noComments":4,
+		"unfavorable":14,
+		"total":356
+	},
+"transiencyB":{
+		"category":["transiency"],
+		"permanent":17,
+		"asLongAsEligible":42,
+		"neverThoughtAboutIt":17,
+		"untilOwnHome":8,
+		"untilBetterPlace":16,
+		"total":356
+	},
+"attitudeAttitudeOfFriendB":{
+		"category":["attitude","attitudeOfFriend"],
+		"liberal":{"liberalFriend":87,"ambivalentFriend":13,"illiberalFriend":0,"total":218},
+		"ambivalent":{"liberalFriend":79,"ambivalentFriend":21,"illiberalFriend":0,"total":28},
+		"illiberal":{"liberalFriend":1,"ambivalentFriend":0,"illiberalFriend":0,"total":1}
+	}
 }
-bins6 = {
-	"category":["evaluationOfPhysicalAmenities"],
-	"favorable":97,
-	"unfavorable":3,
-	"total":314
+
+whiteBins = {
+	"educationOccupationW":{"category":["education","occupation"],
+		"grade_school_or_less":{"white_collar_or_skilled":45,"semiskilled":13,"unskilled_domestic_and_personal_service":27,"total":124},
+		"some_high_school":{"white_collar_or_skilled":51,"semiskilled":31,"unskilled_domestic_and_personal_service":18,"total":78},
+		"high_school_graduate":{"white_collar_or_skilled":58,"semiskilled":32,"unskilled_domestic_and_personal_service":10,"total":85}
+	},
+	"occupationSatisfactionInFieldW":{
+		"category":["occupation","satisfactionInField"],
+		"white_collar_or_skilled":{"poor":34,"hard_to_say":5,"fair":15,"good":46,"total":114},
+		"semiskilled":{"poor":39,"hard_to_say":13,"fair":18,"good":30,"total":74},
+		"unskilled_domestic_and_personal_service":{"poor":40,"hard_to_say":11,"fair":18,"good":31,"total":45}
+	},
+	"occupationsatisfactionInWorkplaceW":{
+		"category":["occupation","satisfactionInWorkplace"],	
+		"white_collar_or_skilled":{"poor":36,"hard_to_say":6,"fair":14,"good":44,"total":114},
+		"semiskilled":{"poor":46,"hard_to_say":7,"fair":22,"good":25,"total":74},
+		"unskilled_domestic_and_personal_service":{"poor":47,"hard_to_say":9,"fair":22,"good":22,"total":45}
+	},
+	"experienceExpectationsW":{
+		"category":["pastExperience","expectations"],
+		"biracial_living_experience":{"integration":9,"mutual_acomodation":72,"conflict":19,"total":115},
+		"no_biracial_living_experience":{"integration":5,"mutual_acomodation":39,"conflict":56,"total":90}
+	},
+	"evaluationOfHilltownW":{
+		"category":["evaluationOfHilltown"],
+		"favorable":68,
+		"unfavorable":32,
+		"total":503
+	},
+	"evaluationOfPhysicalAmenitiesW":{
+		"category":["evaluationOfPhysicalAmenities"],
+		"favorable":80,
+		"unfavorable":20,
+		"total":317
+	},
+	"evaluationOfCoResidentsW":{
+		"category":["evaluationOfCoResidents"],
+		"favorable":40,
+		"unfavorable":60,
+		"total":137
+	},
+	"evaluationOfManagementW":{
+		"category":["evaluationOfManagement"],
+		"favorable":41,
+		"unfavorable":59,
+		"total":48
+	},
+	"impressionOfFriendsW":{
+		"category":["impressionOfFriends"],
+		"favorable":46,
+		"favorableAndUnfavorable":13,
+		"noComments":7,
+		"unfavorable":34,
+		"total":357
+	},
+	"transiencyW":{
+		"category":["transiency"],
+		"permanent":17,
+		"asLongAsEligible":27,
+		"neverThoughtAboutIt":14,
+		"untilOwnHome":16,
+		"untilBetterPlace":26,
+		"total":358
+	},
+	"attitudeAttitudeOfFriendW":{
+		"category":["attitude","attitudeOfFriend"],
+		"liberal":{"liberalFriend":45,"ambivalentFriend":45,"illiberalFriend":10,"total":82},
+		"ambivalent":{"liberalFriend":34,"ambivalentFriend":48,"illiberalFriend":18,"total":108},
+		"illiberal":{"liberalFriend":20,"ambivalentFriend":56,"illiberalFriend":24,"total":50}
+	}
 }
-bins7 = {
-	"category":["evaluationOfCoResidents"],
-	"favorable":85,
-	"unfavorable":15,
-	"total":75
-}
-bins8 = {
-	"category":["evaluationOfManagement"],
-	"favorable":79,
-	"unfavorable":21,
-	"total":43
-}
-bins9 = {
-	"category":["pastExperience","expectations"],
-	"biracialLivingExperience":{"integration":11,"mutualAcomodataion":69,"conflict":20,"total":193},
-	"noBiracialLivingExperience":{"integration":5,"mutualAcomodataion":50,"conflict":45,"total":18}
-}
-bins10 = {
-	"category":["impressionOfFriends"],
-	"favorable":60,
-	"favorableAndUnfavorable":22,
-	"noComments":4,
-	"unfavorable":14,
-	"total":356
-}
-bins11={
-	"category":["attitude","attitudeOfFriend"],
-	"liberal":{"liberalFriend":87,"ambivalentFriend":13,"illiberalFriend":0,"total":218},
-	"ambivalent":{"liberalFriend":79,"ambivalentFriend":21,"illiberalFriend":0,"total":28},
-	"illiberal":{"liberalFriend":1,"ambivalentFriend":0,"illiberalFriend":0,"total":1}
-}
-	
-def makeDots(bins):
+
+
+
+
+
+def makeDots(bins,group):
 	dots = []
 	#print bins["category"]
 	if len(bins["category"])==1:
@@ -86,7 +160,7 @@ def makeDots(bins):
 			if b!="category" and b!="total":
 				count = int(round(bins[b]*.01*bins["total"]))
 				for c in range(count):
-					did = {cat1:b}
+					did = {cat1:b,"group":group}
 					dots.append(did)
 		missingEntries = totalPopulation-len(dots)
 		#print missingEntries, "missing"
@@ -104,13 +178,13 @@ def makeDots(bins):
 					if g!="total":
 						count = int(round(bins[b][g]*.01*bins[b]["total"]))
 						for c in range(count):
-							did = {cat1:b,cat2:g}
+							did = {cat1:b,cat2:g,"group":group}
 							dots.append(did)
 		
 		missingEntries = totalPopulation-len(dots)
 		#print missingEntries, "missing"
 		for m in range(missingEntries):
-			did = {cat1:"NA",cat2:"NA"}
+			did = {cat1:"NA",cat2:"NA","group":group}
 			dots.append(did)
 							
 	shuffledDots = sorted(dots, key=lambda k: random.random())
@@ -122,20 +196,26 @@ def merge_two_dicts(x, y):
     return z
 	
 def joinCombinedDots(dots1,dots2,joinByCats,newDots):
+	counter = 0
 	for d in dots1:
 		for d2 in dots2:
 			#print d2
 			match = True
 			for cat in joinByCats:
-				if d[cat]!=d2[cat]:
+				if d[cat]!=d2[cat] and d[cat]!="NA" and d2[cat]!="NA":
+					counter +=1
 					match = False
+					
 			#print match, d,d2
 			if match == True:
 				newDot = merge_two_dicts(d, d2)
 				dots1.remove(d)
 				dots2.remove(d2)
 				newDots.append(newDot)
-				joinCombinedDots(dots1,dots2,joinByCats,newDots)
+				if len(dots1)<1 or len(dots2)<1:# or counter>10^10:
+					return {"joined":newDots,"unmatched1":dots1,"unmatched2":dots2}
+				else:
+					joinCombinedDots(dots1,dots2,joinByCats,newDots)
 				#print len(dots1),len(dots2),len(newDots)
 	return {"joined":newDots,"unmatched1":dots1,"unmatched2":dots2}
 
@@ -164,64 +244,77 @@ def combineBins(cats1,cats2,dots1, dots2):
 		if cat in cats2:
 			joinByCats.append(cat)
 	if len(joinByCats)>0:	
-		#print "join with common category"
+		print "join with common category"
 		joined=joinCombinedDots(dots1,dots2,joinByCats,newDots)
 	else:
-		#print "join with NO common category"
+		print "join with NO common category"
 		joined= joinWithNoCommonCat(dots1,dots2,newDots)
 	return joined
 	
 
-#cats1 = bins1["category"]
-#cats2 = bins2["category"]
-#dots1 = makeDots(bins1)
-#dots2 = makeDots(bins2)
-#results1 = combineBins(cats1,cats2,dots1,dots2)
-#print "unmatched: ",len(results1["unmatched1"]),len(results1["unmatched2"])
-#
-#combinedDots = results1["joined"]
-#
-#combinedCats = list(set(bins1["category"])|set(bins2["category"]))
-#cats3 = bins3["category"]
-#dots3 = makeDots(bins3)
-#results2 = combineBins(combinedCats,cats3, combinedDots, dots3)
-#
-#print "unmatched: ",len(results2["unmatched1"]),len(results2["unmatched2"])
-#print len(results2["joined"])
-#print results2["unmatched1"]
-#print len(makeDots(bins9))
-#print len(makeDots(bins3))
-
-#print combineBins(bins9["category"],bins3["category"],makeDots(bins9),makeDots(bins3))
-
-def generatePopulation(fileName):
-	allBins = [bins1,bins2,bins3,bins4,bins5,bins6,bins7,bins8,bins9,bins10,bins11]
-	combinedCats= allBins[0]
-	allDots = makeDots(allBins[0])
-	for i in range(1,len(allBins)):
-		newCats = allBins[i]["category"]
-		newDots = makeDots(allBins[i])
+def generatePopulation(csvWriter,allBins,group,isheader):
+	keys = allBins.keys()
+	
+	combinedCats= allBins[keys[0]]["category"]
+	
+	allDots = makeDots(allBins[keys[0]],group)
+	
+	for i in range(1,len(keys)):
+		#print i
+		newCats = allBins[keys[i]]["category"]
+		#print newCats
+		newDots = makeDots(allBins[keys[i]],group)
 		results = combineBins(combinedCats,newCats,allDots,newDots)
-		combinedCats = list(set(combinedCats)|set(allBins[i]["category"]))
+		combinedCats = list(set(combinedCats)|set(allBins[keys[i]]["category"]))
 		allDots = results["joined"]
 
-	csvWriter = csv.writer(open(fileName,"w"))
-	headers = ["id"]+allDots[0].keys()
-	csvWriter.writerow(headers)
-	#print headers
+	headers = allDots[0].keys()
+	if isheader == True:
+		#print "headers", headers
+		csvWriter.writerow(["id","group"]+headers)
+		#print "added headers", ["id"]+headers
 	pid = 0
-	print allDots
 	
 	for d in allDots:
 		pid+=1
-		row = [str(pid)]
-		for c in d:
+		row = []
+		for c in headers:
 			row.append(d[c])
-		csvWriter.writerow(row)
+		#print
+		#print "data",row
+		#print "added data",[str(pid)]+row
+		csvWriter.writerow([str(pid),group]+row)
+	return allDots
 
+
+	
+	
 for k in range(15):
-	generatePopulation("web/populations/pop_"+str(k)+".csv")
+	k = 0
+	#print blackBins.keys()
+	print whiteBins.keys()
+	
+	csvWriter = csv.writer(open("web/populations/pop_all_"+str(k)+".csv","w"))
+	
+	bPop = generatePopulation(csvWriter,blackBins,"b",True)
+	wPop = generatePopulation(csvWriter,whiteBins,"w",False)
+	
+	
+#allPop = bPop+wPop
+#print allPop[0]
+#
+#shuffledAllPop = sorted(allPop, key=lambda j: random.random())
+#
+#header =  shuffledAllPop[0].keys()
+#
+#combinedWriter = csv.writer(open("web/populations/pop_all_"+str(k)+".csv","w"))
+#combinedWriter.writerow(shuffledAllPop[0].keys())
+#for i in shuffledAllPop:
+#	print shuffledAllPop[0].keys()
+#	combinedWriter.writerow(i.values())
+#
 	break
+
 
 
 

@@ -9,7 +9,7 @@ def generateNetwork(fileName):
 	csvReader.next()
 	
 	print fileName.replace("pop_","links_")
-	csvWriter = csv.writer(open(fileName.replace(".csv","_links.csv"),"w"))
+	csvWriter = csv.writer(open(fileName.replace(".csv","_new_links.csv"),"w"))
 	csvWriter.writerow(["source","target","Weight"])
 	nodes = []
 	checked = []
@@ -24,7 +24,7 @@ def generateNetwork(fileName):
 				linkStrength = checkPair(node1,node2)
 				checked.append([id1,id2].sort)
 				if linkStrength >2:
-					csvWriter.writerow(["_"+str(id1),"_"+str(id2),linkStrength])
+					csvWriter.writerow(["_"+str(id1),"_"+str(id2),linkStrength*linkStrength])
 		
 		
 def checkPair(node1,node2):

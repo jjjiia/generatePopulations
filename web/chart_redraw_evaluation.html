@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	  <meta charset="UTF-8">
+    <title>charts</title>
+
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dc.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+</head>
+
+<body>
+<div id="title">redo charts</div>
+<div id="subtitle"></div>
+
+
+
+<script type="text/javascript" src="js/d3.js"></script>
+<script type="text/javascript" src="js/crossfilter.js"></script>
+<script type="text/javascript" src="js/dc.js"></script>
+<script type="text/javascript" src="js/colorbrewer.js"></script>
+<script type="text/javascript" src="js/queue.v1.min.js"></script>
+<script type="text/javascript" src="js/d3.tip.js"></script>
+
+
+<script>
+	var data = [
+		{Unfavorable:7,favorable:93,total:432},
+		{Unfavorable:32,favorable:68,total:503},
+		{Unfavorable:3,favorable:97,total:314},
+		{Unfavorable:20,favorable:80,total:317},
+		{Unfavorable:15,favorable:85,total:75},
+		{Unfavorable:60,favorable:40,total:138},
+		{Unfavorable:21,favorable:79,total:43},
+		{Unfavorable:59,favorable:41,total:48},
+	]
+	
+	var cat = ["Unfavorable","favorable"]
+	
+	var layers = d3.layout.stack()(cat.map(function(c) {
+	    return data.map(function(d,i) {
+			if(c!="total"){
+				  //console.log(d["total"]*d[c]*.01)
+				 return {x: i, y: d[c]*.01*d["total"]};
+	  		}
+	    });
+	  }));
+	
+  var margin = {top: 20, right: 50, bottom: 30, left: 20},
+      width = 600 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+	console.log(layers)
+	var x = d3.scale.ordinal()
+	    .rangeRoundBands([0, width]);
+
+	var y = d3.scale.linear()
+	    .rangeRound([height, 0]);
+
+	var z = d3.scale.category10();
+
+	x.domain(layers[0].map(function(d) { return d.x; }));
+	y.domain([0, d3.max(layers[layers.length - 1], function(d) { return d.y0 + d.y; })]).nice();
+
+	
+	
+	var svg = d3.select("body").append("svg").attr("width",width).attr("height",height+200)
+	
+	var layer = svg.selectAll(".layer")
+		.data(layers)
+		.enter().append("g")
+		.attr("class", "layer")
+	.style("fill", function(d, i) { return "none"; })
+	.style("stroke", function(d, i) { return 'black'; });
+		
+  layer.selectAll("rect")
+        .data(function(d) { return d; })
+      .enter().append("rect")
+        .attr("y", function(d) { console.log(x(d.x)); return x(d.x); })
+        .attr("x", function(d) { return y(d.y + d.y0); })
+        .attr("width", function(d) { console.log(y(d.y0) - y(d.y + d.y0)); return y(d.y0) - y(d.y + d.y0); })
+        .attr("height", function(d,i){return 40})//x.rangeBand() - 1);
+		
+</script>
+</body>
+</html>
