@@ -283,36 +283,32 @@ def generatePopulation(csvWriter,allBins,group,isheader):
 		#print
 		#print "data",row
 		#print "added data",[str(pid)]+row
-		csvWriter.writerow([str(pid),group]+row)
+		csvWriter.writerow([str(pid)+"_"+group,group]+row)
 	return allDots
 
 
 	
 	
-for k in range(15):
-	k = 0
+for k in range(1,15):
 	#print blackBins.keys()
 	print whiteBins.keys()
 	
-	csvWriter = csv.writer(open("web/populations/pop_all_"+str(k)+".csv","w"))
+	csvWriter = csv.writer(open("pop_all_"+str(k)+".csv","w"))
+	
+	
 	
 	bPop = generatePopulation(csvWriter,blackBins,"b",True)
 	wPop = generatePopulation(csvWriter,whiteBins,"w",False)
 	
 	
-#allPop = bPop+wPop
-#print allPop[0]
-#
-#shuffledAllPop = sorted(allPop, key=lambda j: random.random())
-#
-#header =  shuffledAllPop[0].keys()
-#
-#combinedWriter = csv.writer(open("web/populations/pop_all_"+str(k)+".csv","w"))
-#combinedWriter.writerow(shuffledAllPop[0].keys())
-#for i in shuffledAllPop:
-#	print shuffledAllPop[0].keys()
-#	combinedWriter.writerow(i.values())
-#
+	
+	#combinedWriter = csv.writer(open("web/populations/pop_all_"+str(k)+".csv","w"))
+	#combinedWriter.writerow(shuffledAllPop[0].keys())
+	
+	#for i in shuffledAllPop:
+	#	print shuffledAllPop[0].keys()
+	#	combinedWriter.writerow(i.values())
+	#	
 	break
 
 

@@ -16,10 +16,9 @@ a{
  }
  #dotsContainer{
 	 margin-left:50%;
-	 width:50%;
+	 width:400px;
 	 height:100%;
 	 color:#000000;
-	 border:1px solid black;
  }
  #title{
 	 font-size:30px;

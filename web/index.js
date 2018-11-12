@@ -48,8 +48,8 @@ function makeDots(dataById){
     .attr('class', 'd3-tip')
     .offset([0, 0])
 
-	var columns = 40
-	var gridSize = 16
+	var columns = 27
+	var gridSize = 15
 	var svg = d3.select("#dotsContainer").append("svg").attr("width",700).attr("height",600)
 	svg.call(tip);
 	svg.selectAll(".dots")
@@ -67,7 +67,7 @@ function makeDots(dataById){
 			}
 			return classString
 		})
-		.attr("r",7)
+		.attr("r",6)
 		.attr("cx",function(d,i){
 			return i%columns*gridSize+gridSize
 		})
@@ -110,8 +110,9 @@ function makeTable(data){
 }
 
 function makeRowChart(ndx,column,color){
+    console.log(column)
 	var chartDiv = d3.select("#container").append("div").attr("class","chartDiv").attr("id",column)
-	var title = chartDiv.append("div").html(column.replace("_"," ")).attr("class","chartName")
+	var title = chartDiv.append("div").html(column.replace(/([A-Z])/g, ' $1')).attr("class","chartName")
 //	var graphicDiv = chartDiv.append("div").attr("id",column)
 	
 	var thisDimension = ndx.dimension(function(d){return d[column]})
@@ -134,12 +135,14 @@ function makeRowChart(ndx,column,color){
 		//.elasticX(true)
 		.gap(1)
 		.xAxis().ticks(2)
-	chart.on("filtered",function(){
+    
+    chart.on("filtered",function(){
+        console.log(currentData)
 		var currentData = thisDimension.top(Infinity)
 		var ids = {}
 		d3.selectAll("circle").style("opacity",.1)
 		for( var i in currentData){
-			d3.select(".id_"+currentData[i].id).style("opacity",1)
+			d3.selectAll(".id_"+currentData[i].id).style("opacity",1)
 		}
 	})
 		return chart
